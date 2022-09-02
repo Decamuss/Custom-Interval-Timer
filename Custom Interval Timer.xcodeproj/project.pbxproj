@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C2E5A4828C2858C006CE054 /* PresetTimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2E5A4728C2858C006CE054 /* PresetTimerService.swift */; };
+		4C2E5A4A28C28598006CE054 /* PresetTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2E5A4928C28598006CE054 /* PresetTimerModel.swift */; };
 		4C50F4B228ADD71D0050EA6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C50F4B128ADD71D0050EA6C /* AppDelegate.swift */; };
 		4C50F4B428ADD71D0050EA6C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C50F4B328ADD71D0050EA6C /* SceneDelegate.swift */; };
 		4C50F4B928ADD71D0050EA6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C50F4B728ADD71D0050EA6C /* Main.storyboard */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C2E5A4728C2858C006CE054 /* PresetTimerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetTimerService.swift; sourceTree = "<group>"; };
+		4C2E5A4928C28598006CE054 /* PresetTimerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetTimerModel.swift; sourceTree = "<group>"; };
 		4C50F4AE28ADD71D0050EA6C /* Custom Interval Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Interval Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C50F4B128ADD71D0050EA6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C50F4B328ADD71D0050EA6C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 				4C50F4BA28ADD71E0050EA6C /* Assets.xcassets */,
 				4C50F4BC28ADD71E0050EA6C /* LaunchScreen.storyboard */,
 				4C50F4BF28ADD71E0050EA6C /* Info.plist */,
+				4C2E5A4928C28598006CE054 /* PresetTimerModel.swift */,
+				4C2E5A4728C2858C006CE054 /* PresetTimerService.swift */,
 				4C50F52728B31C2B0050EA6C /* EntryViewController.swift */,
 			);
 			path = "Custom Interval Timer";
@@ -270,6 +276,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C2E5A4828C2858C006CE054 /* PresetTimerService.swift in Sources */,
+				4C2E5A4A28C28598006CE054 /* PresetTimerModel.swift in Sources */,
 				4C50F4E428ADD7B90050EA6C /* Global.swift in Sources */,
 				4C50F52A28B336A00050EA6C /* DescriptionViewController.swift in Sources */,
 				4C50F4B228ADD71D0050EA6C /* AppDelegate.swift in Sources */,

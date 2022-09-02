@@ -10,67 +10,53 @@ class Presets: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    var presets = [String]()
-    
-    func updatePresets(){
-        
-        presets.removeAll()
-        guard let count = UserDefaults().value(forKey: "count") as? Int else{
-            return
-        }
-        for x in 0..<count{
-            if let preset = UserDefaults().value(forKey: "preset_\(x+1)") as? String{
-                presets.append(preset)
-            }
-            
-            
-        }
-        tableView.reloadData()
-    }
-    
+    var presets = [PresetTimerModel]()
+    var presetSelected: PresetTimerModel?
+    var presetSelectedIndex: Int?
+
     @IBAction func didTapAdd()
     {
         let vc = storyboard?.instantiateViewController(identifier: "entry") as! EntryViewController
         vc.title = "New Preset"
-        vc.update = {
-            DispatchQueue.main.async{
-            self.updatePresets()
-            }
-        }
         navigationController?.pushViewController(vc, animated: true)
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
         self.title = "Presets"
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
-        if !UserDefaults().bool(forKey: "setup"){
-            UserDefaults().set(true, forKey: "setup")
-            UserDefaults().set(0, forKey: "count")
-        }
-        updatePresets()
     }
-
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presets = PresetTimerService.getAllObjects
+        presetSelected = PresetTimerService.presetSelected;
+        tableView.reloadData()
+    }
 }
 
 extension Presets: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("Deleted")
+            presets.remove(at: indexPath.row)
+            if (presetSelectedIndex == indexPath.row) {
+                PresetTimerService.removePresetSelected()
+            }
+            PresetTimerService.saveAllObjects(allObjects: presets)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let vc = storyboard?.instantiateViewController(identifier: "description") as! DescriptionViewController
         vc.title = "New Preset"
         vc.preset = presets[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
-        
-    
-    
     }
 }
     
@@ -79,10 +65,17 @@ extension Presets: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presets.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-    
-        cell.textLabel?.text = presets[indexPath.row]
+        cell.textLabel?.text = presets[indexPath.row].name
+        
+        if (presets[indexPath.row].timerId == presetSelected?.timerId) {
+            cell.accessoryType = .checkmark
+            presetSelectedIndex = indexPath.row
+        } else {
+            cell.accessoryType = .none
+        }
         
         return cell
     }

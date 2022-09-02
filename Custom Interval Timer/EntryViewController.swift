@@ -10,8 +10,11 @@ import UIKit
 class EntryViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var field: UITextField!
+    @IBOutlet weak var intervalTextField: UITextField!
+    @IBOutlet weak var restTextField: UITextField!
+    @IBOutlet weak var repsTextField: UITextField!
     
-    var update: (() -> Void)?
+    var presets: [PresetTimerModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,34 +22,32 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         field.delegate = self
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(savePreset))
-        // Do any additional setup after loading the view.
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        savePreset()
-        
-        return true
+        presets = PresetTimerService.getAllObjects;
     }
     
     @objc func savePreset()
     {
-        guard let text = field.text, !text.isEmpty else{
+        guard let name = field.text, !name.isEmpty else {
             return
         }
         
-        guard let count = UserDefaults().value(forKey: "count") as? Int else{
+        guard let intervalString = intervalTextField.text, let interval = Int(intervalString) else {
             return
         }
         
-        let newCount = count + 1
-        UserDefaults().set(newCount, forKey: "count")
-        UserDefaults().set(text, forKey: "preset_\(newCount)")
+        guard let restString = restTextField.text, let rest = Int(restString) else {
+            return
+        }
         
-        update?()
+        guard let repsString = repsTextField.text, let reps = Int(repsString) else {
+            return
+        }
+                
+        let presetTimerModel = PresetTimerModel(timerId: Int(NSDate().timeIntervalSince1970), interval: interval, rest: rest, reps: reps, name: name)
         
+        presets.append(presetTimerModel);
+        PresetTimerService.saveAllObjects(allObjects: presets);
         navigationController?.popViewController(animated: true)
     }
-
-
 }

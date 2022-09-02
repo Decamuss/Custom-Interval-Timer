@@ -19,7 +19,10 @@ class TimerViewController: UIViewController {
     var rest = Global.rest
     var time = Global.interval
     var repCheck = Global.reps
+    var presetName = Global.name
     var wasInterval: Bool = true
+    
+    var presetTimerSelected: PresetTimerModel?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -27,7 +30,22 @@ class TimerViewController: UIViewController {
         interval = Global.interval
         reps = Global.reps
         rest = Global.rest
+        presetName = Global.name
         
+        presetTimerSelected = PresetTimerService.presetSelected;
+        if let preset = presetTimerSelected {
+            interval = preset.interval
+            reps = preset.reps
+            rest = preset.rest
+            presetName = preset.name
+            name.text = presetName
+            time = preset.interval
+            clock.text = String(interval)
+            repCount.text = String(reps)
+        } else {
+            resetTimer()
+        }
+        resetTimer()
     }
     
     override func viewDidLoad() {
@@ -35,6 +53,7 @@ class TimerViewController: UIViewController {
         // Do any additional setup after loading the view.
         clock.text = String(interval)
         repCount.text = String(reps)
+        resetTimer()
     }
     
     var timer = Timer()
@@ -53,14 +72,19 @@ class TimerViewController: UIViewController {
         timer.invalidate()
     }
     
-    
-    @IBAction func resetButton(_ sender: Any) {
+    func resetTimer() {
         timer.invalidate()
         time = interval
         clock.text = String(time)
         repCount.text = String(reps)
-        repCheck = Global.reps
+        repCheck = reps
         wasInterval = true
+        
+        name.text = presetName
+    }
+    
+    @IBAction func resetButton(_ sender: Any) {
+        resetTimer()
     }
     
     @objc func timerClass()

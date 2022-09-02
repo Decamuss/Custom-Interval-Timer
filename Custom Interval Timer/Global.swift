@@ -7,9 +7,9 @@
 
 import Foundation
 class Global {
-    static var interval:Int = 1
+    static var interval:Int = 30
     static var rest:Int = 5
-    static var reps:Int = 2
+    static var reps:Int = 6
     static var name:String = "Default Timer"
     
     
